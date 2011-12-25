@@ -1,4 +1,4 @@
-package com.nostra13.socialsharing.base;
+package com.nostra13.example.socialsharing.base;
 
 import android.app.Activity;
 import android.widget.Toast;

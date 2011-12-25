@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.nostra13.example.socialsharing.Constants.Extra;
-import com.nostra13.socialsharing.base.TwitterBaseActivity;
+import com.nostra13.example.socialsharing.base.TwitterBaseActivity;
 import com.nostra13.socialsharing.twitter.TwitterFacade;
 
 /**
