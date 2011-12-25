@@ -11,9 +11,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -23,7 +20,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.nostra13.socialsharing.R;
 
@@ -47,7 +43,6 @@ class TwitterDialog extends Dialog {
 	private ProgressDialog spinner;
 	private WebView browser;
 	private LinearLayout content;
-	private TextView title;
 
 	private AsyncTwitter twitter;
 	private RequestToken requestToken;
@@ -67,7 +62,7 @@ class TwitterDialog extends Dialog {
 
 		content = new LinearLayout(getContext());
 		content.setOrientation(LinearLayout.VERTICAL);
-		setUpTitle();
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setUpWebView();
 
 		Display display = getWindow().getWindowManager().getDefaultDisplay();
@@ -87,20 +82,6 @@ class TwitterDialog extends Dialog {
 			spinner.show();
 			browser.loadUrl(requestToken.getAuthorizationURL());
 		}
-	}
-
-	private void setUpTitle() {
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		Drawable icon = getContext().getResources().getDrawable(R.drawable.ic_twitter);
-		title = new TextView(getContext());
-		title.setText("Twitter");
-		title.setTextColor(Color.WHITE);
-		title.setTypeface(Typeface.DEFAULT_BOLD);
-		title.setBackgroundColor(TW_BLUE);
-		title.setPadding(MARGIN + PADDING, MARGIN, MARGIN, MARGIN);
-		title.setCompoundDrawablePadding(MARGIN + PADDING);
-		title.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
-		content.addView(title);
 	}
 
 	private void retrieveRequestToken() {

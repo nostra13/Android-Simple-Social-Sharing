@@ -22,7 +22,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,11 +32,9 @@ import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.facebook.android.Facebook.DialogListener;
-import com.nostra13.socialsharing.R;
 
 public class FbDialog extends Dialog {
 
@@ -53,7 +50,6 @@ public class FbDialog extends Dialog {
 	private String mUrl;
 	private DialogListener mListener;
 	private ProgressDialog mSpinner;
-	private ImageView mCrossImage;
 	private WebView mWebView;
 	private FrameLayout mContent;
 
@@ -73,41 +69,12 @@ public class FbDialog extends Dialog {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		mContent = new FrameLayout(getContext());
 
-		/* Create the 'x' image, but don't add to the mContent layout yet
-		 * at this point, we only need to know its drawable width and height 
-		 * to place the webview
-		 */
-		createCrossImage();
-
-		/* Now we know 'x' drawable width and height, 
-		 * layout the webivew and add it the mContent layout
-		 */
-		int crossWidth = mCrossImage.getDrawable().getIntrinsicWidth();
-		setUpWebView(crossWidth / 2);
+		setUpWebView(0);
 
 		/* Finally add the 'x' image to the mContent layout and
 		 * add mContent to the Dialog view
 		 */
-		mContent.addView(mCrossImage, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		addContentView(mContent, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-	}
-
-	private void createCrossImage() {
-		mCrossImage = new ImageView(getContext());
-		// Dismiss the dialog when user click on the 'x'
-		mCrossImage.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mListener.onCancel();
-				FbDialog.this.dismiss();
-			}
-		});
-		Drawable crossDrawable = getContext().getResources().getDrawable(R.drawable.close);
-		mCrossImage.setImageDrawable(crossDrawable);
-		/* 'x' should not be visible while webview is loading
-		 * make it visible only after webview has fully loaded
-		*/
-		mCrossImage.setVisibility(View.INVISIBLE);
 	}
 
 	private void setUpWebView(int margin) {
@@ -185,7 +152,6 @@ public class FbDialog extends Dialog {
 			 */
 			mContent.setBackgroundColor(Color.TRANSPARENT);
 			mWebView.setVisibility(View.VISIBLE);
-			mCrossImage.setVisibility(View.VISIBLE);
 		}
 	}
 }

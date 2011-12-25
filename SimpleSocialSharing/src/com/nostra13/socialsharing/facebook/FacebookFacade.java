@@ -48,7 +48,13 @@ public class FacebookFacade {
 	}
 
 	public void logout() {
-		asyncFacebook.logout(context, new FacebookLogoutListener());
+		asyncFacebook.logout(context, new FacebookLogoutListener() {
+			@Override
+			public void onComplete(final String response, final Object state) {
+				super.onComplete(response, state);
+				FacebookSessionStore.clear(context);
+			}
+		});
 	}
 
 	public void publishMessage(String message) {

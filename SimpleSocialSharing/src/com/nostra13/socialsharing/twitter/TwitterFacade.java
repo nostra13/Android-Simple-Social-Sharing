@@ -17,7 +17,7 @@ public class TwitterFacade {
 
 	public TwitterFacade(Activity context) {
 		this.context = context;
-		asyncTwitter = AsyncTwitterFactory.getSingleton();
+		asyncTwitter = new AsyncTwitterFactory().getInstance();
 		asyncTwitter.addListener(new TwitterPostListener());
 		dialog = new TwitterDialog(context, asyncTwitter);
 
@@ -34,6 +34,7 @@ public class TwitterFacade {
 
 	public void logout() {
 		TwitterSessionStore.clear(context);
+		TwitterEvents.onLogoutComplete();
 	}
 
 	public void publishMessage(String message) {
