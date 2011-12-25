@@ -11,12 +11,13 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Display;
+import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
@@ -39,13 +40,13 @@ class TwitterDialog extends Dialog {
 
 	private ProgressDialog spinner;
 	private WebView browser;
-	private LinearLayout content;
+	private FrameLayout content;
 
 	private AsyncTwitter twitter;
 	private RequestToken requestToken;
 
 	public TwitterDialog(Context context, AsyncTwitter twitter) {
-		super(context);
+		super(context, android.R.style.Theme_Translucent_NoTitleBar);
 		this.twitter = twitter;
 	}
 
@@ -57,18 +58,11 @@ class TwitterDialog extends Dialog {
 		spinner.setMessage("Loading...");
 		spinner.setCancelable(false);
 
-		content = new LinearLayout(getContext());
-		content.setOrientation(LinearLayout.VERTICAL);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setUpWebView();
+		content = new FrameLayout(getContext());
+		setUpWebView(10);
 
-//		Display display = getWindow().getWindowManager().getDefaultDisplay();
-//		final float scale = getContext().getResources().getDisplayMetrics().density;
-//		float[] dimensions = display.getWidth() < display.getHeight() ? DIMENSIONS_PORTRAIT : DIMENSIONS_LANDSCAPE;
-//		addContentView(content, new FrameLayout.LayoutParams((int) (dimensions[0] * scale + 0.5f), (int) (dimensions[1] * scale + 0.5f)));
-		
-		addContentView(content, new FrameLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-		
+		addContentView(content, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 
 		retrieveRequestToken();
 	}
@@ -79,7 +73,6 @@ class TwitterDialog extends Dialog {
 		if (requestToken == null) {
 			dismiss();
 		} else {
-			spinner.show();
 			browser.loadUrl(requestToken.getAuthorizationURL());
 		}
 	}
@@ -98,7 +91,8 @@ class TwitterDialog extends Dialog {
 		}
 	}
 
-	private void setUpWebView() {
+	private void setUpWebView(int margin) {
+		LinearLayout webViewContainer = new LinearLayout(getContext());
 		browser = new WebView(getContext());
 		browser.setVerticalScrollBarEnabled(false);
 		browser.setHorizontalScrollBarEnabled(false);
@@ -106,7 +100,11 @@ class TwitterDialog extends Dialog {
 		browser.getSettings().setJavaScriptEnabled(true);
 		browser.addJavascriptInterface(new MyJavaScriptInterface(), "HTMLOUT");
 		browser.setLayoutParams(FILL);
-		content.addView(browser);
+		browser.setVisibility(View.INVISIBLE);
+
+		webViewContainer.setPadding(margin, margin, margin, margin);
+		webViewContainer.addView(browser);
+		content.addView(webViewContainer);
 	}
 
 	private class TwWebViewClient extends WebViewClient {
@@ -128,9 +126,6 @@ class TwitterDialog extends Dialog {
 		public void onPageStarted(WebView view, String url, Bitmap favicon) {
 			Log.d(TAG, "WebView loading URL: " + url);
 			super.onPageStarted(view, url, favicon);
-			if (spinner.isShowing()) {
-				spinner.dismiss();
-			}
 			spinner.show();
 		}
 
@@ -138,6 +133,9 @@ class TwitterDialog extends Dialog {
 		public void onPageFinished(WebView view, String url) {
 			super.onPageFinished(view, url);
 			browser.loadUrl(JS_HTML_EXTRACTOR);
+			
+			content.setBackgroundColor(Color.TRANSPARENT);
+			browser.setVisibility(View.VISIBLE);
 		}
 	}
 
