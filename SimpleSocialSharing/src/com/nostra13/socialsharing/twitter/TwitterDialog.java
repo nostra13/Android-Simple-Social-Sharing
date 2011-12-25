@@ -21,8 +21,6 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.nostra13.socialsharing.R;
-
 /**
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
  */
@@ -57,7 +55,7 @@ class TwitterDialog extends Dialog {
 		super.onCreate(savedInstanceState);
 		spinner = new ProgressDialog(getContext());
 		spinner.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		spinner.setMessage(getContext().getResources().getString(R.string.loading));
+		spinner.setMessage("Loading...");
 		spinner.setCancelable(false);
 
 		content = new LinearLayout(getContext());
