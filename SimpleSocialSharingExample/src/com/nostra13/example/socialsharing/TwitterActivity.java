@@ -1,6 +1,9 @@
 package com.nostra13.example.socialsharing;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -48,8 +51,30 @@ public class TwitterActivity extends TwitterBaseActivity {
 		});
 
 		twitter = new TwitterFacade(this);
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
 		if (!twitter.isAuthorized()) {
 			twitter.authorize();
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_facebook_twitter, menu);
+		return true;
+	}
+
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.item_logout:
+				twitter.logout();
+				return true;
+			default:
+				return false;
 		}
 	}
 }

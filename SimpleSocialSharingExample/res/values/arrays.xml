@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string-array name="sharing_items">
-        <item>Facebook</item>
-        <item>Twitter</item>
-    </string-array>
-
-</resources>

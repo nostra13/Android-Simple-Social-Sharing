@@ -1,9 +1,6 @@
 package com.nostra13.example.socialsharing;
 
 import android.app.Activity;
-import android.app.AlertDialog.Builder;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -45,28 +42,17 @@ public class HomeActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu_social_sharing, menu);
+		inflater.inflate(R.menu.menu_home, menu);
 		return true;
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.item_share:
-				Builder builder = new Builder(this);
-				builder.setItems(R.array.sharing_items, new OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						switch (which) {
-							case 0:
-								startFacebookActivity();
-								break;
-							case 1:
-								startTwitterActivity();
-								break;
-						}
-					}
-				});
-				builder.create().show();
+			case R.id.item_share_facebook:
+				startFacebookActivity();
+				return true;
+			case R.id.item_share_twitter:
+				startTwitterActivity();
 				return true;
 			default:
 				return false;

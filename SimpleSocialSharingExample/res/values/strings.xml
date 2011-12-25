@@ -3,24 +3,12 @@
 
     <string name="app_name">SocialSharing</string>
     <string name="text_home">Welcome to Social Sharing!!! \n\nUse menu to share</string>
-    <string name="loading">Loading...</string>
-    <!-- Facebook events -->
-    <string name="toast_facebook_auth_success">Facebook authentication is successful</string>
-    <string name="toast_facebook_auth_fail">Error was occurred during Facebook authentication</string>
-    <string name="facebook_post_published">Posted to Facebook successfully</string>
-    <string name="facebook_post_publishing_failed">Post publishing was failed</string>
-    <string name="facebook_logged_out">You are logged out</string>
-    <!-- Twitter events -->
-    <string name="toast_twitter_auth_success">Twitter authentication is successful</string>
-    <string name="toast_twitter_auth_fail">Error was occurred during Twitter authentication</string>
-    <string name="twitter_post_published">Tweeted successfully</string>
-    <string name="twitter_post_publishing_failed">Tweet failed</string>
-    <string name="twitter_logged_out">You are logged out</string>
     <!-- Text and labels -->
     <string name="share_message_title">Message</string>
     <string name="button_facebook_post">Post on Facebook</string>
     <string name="button_twitter_post">Post on Twitter</string>
-    <string name="menu_share">Share</string>
+    <string name="menu_share_facebook">Share on Facebook</string>
+    <string name="menu_share_twitter">Share on Twitter</string>
     <string name="menu_logout">Logout</string>
 
 </resources>

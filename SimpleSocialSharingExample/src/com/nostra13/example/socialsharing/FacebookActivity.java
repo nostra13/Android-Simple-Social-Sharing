@@ -4,13 +4,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.nostra13.example.socialsharing.Constants.Extra;
-import com.nostra13.example.socialsharing.R;
 import com.nostra13.socialsharing.base.FacebookBaseActivity;
 import com.nostra13.socialsharing.facebook.FacebookFacade;
 
@@ -78,6 +80,23 @@ public class FacebookActivity extends FacebookBaseActivity {
 		super.onStart();
 		if (!facebook.isAuthorized()) {
 			facebook.authorize();
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_facebook_twitter, menu);
+		return true;
+	}
+
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.item_logout:
+				facebook.logout();
+				return true;
+			default:
+				return false;
 		}
 	}
 }
