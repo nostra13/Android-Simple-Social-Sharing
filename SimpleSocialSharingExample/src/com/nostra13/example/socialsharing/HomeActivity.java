@@ -22,7 +22,7 @@ public class HomeActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.ac_social_sharing);
+		setContentView(R.layout.ac_home);
 	}
 
 	@Override
