@@ -69,7 +69,7 @@ public class FbDialog extends Dialog {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		mContent = new FrameLayout(getContext());
 
-		setUpWebView(0);
+		setUpWebView(10);
 
 		/* Finally add the 'x' image to the mContent layout and
 		 * add mContent to the Dialog view

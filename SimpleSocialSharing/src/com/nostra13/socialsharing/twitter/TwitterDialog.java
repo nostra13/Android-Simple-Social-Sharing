@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.ViewGroup.LayoutParams;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
@@ -31,8 +32,6 @@ class TwitterDialog extends Dialog {
 	static final float[] DIMENSIONS_LANDSCAPE = {460, 260};
 	static final float[] DIMENSIONS_PORTRAIT = {280, 420};
 	static final FrameLayout.LayoutParams FILL = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
-	static final int MARGIN = 4;
-	static final int PADDING = 2;
 
 	static final String JS_HTML_EXTRACTOR = "javascript:window.HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');";
 	static final String OAUTH_PIN_BLOCK_REGEXP = "id=\\\"oauth_pin((.|\\n)*)(\\d{7})";
@@ -63,10 +62,13 @@ class TwitterDialog extends Dialog {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setUpWebView();
 
-		Display display = getWindow().getWindowManager().getDefaultDisplay();
-		final float scale = getContext().getResources().getDisplayMetrics().density;
-		float[] dimensions = display.getWidth() < display.getHeight() ? DIMENSIONS_PORTRAIT : DIMENSIONS_LANDSCAPE;
-		addContentView(content, new FrameLayout.LayoutParams((int) (dimensions[0] * scale + 0.5f), (int) (dimensions[1] * scale + 0.5f)));
+//		Display display = getWindow().getWindowManager().getDefaultDisplay();
+//		final float scale = getContext().getResources().getDisplayMetrics().density;
+//		float[] dimensions = display.getWidth() < display.getHeight() ? DIMENSIONS_PORTRAIT : DIMENSIONS_LANDSCAPE;
+//		addContentView(content, new FrameLayout.LayoutParams((int) (dimensions[0] * scale + 0.5f), (int) (dimensions[1] * scale + 0.5f)));
+		
+		addContentView(content, new FrameLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		
 
 		retrieveRequestToken();
 	}

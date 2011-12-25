@@ -9,7 +9,10 @@ import com.nostra13.socialsharing.common.PostListener;
 /**
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
  */
-public class TwitterEvents {
+public final class TwitterEvents {
+
+	private TwitterEvents() {
+	}
 
 	private static LinkedList<AuthListener> authListeners = new LinkedList<AuthListener>();
 	private static LinkedList<LogoutListener> logoutListeners = new LinkedList<LogoutListener>();

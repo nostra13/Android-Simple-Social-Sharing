@@ -6,13 +6,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-import com.nostra13.socialsharing.Constants;
 import com.nostra13.socialsharing.Constants.Preferences;
 
 /**
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
  */
-class TwitterSessionStore {
+final class TwitterSessionStore {
+
+	private TwitterSessionStore() {
+	}
 
 	public static boolean save(AccessToken session, Context context) {
 		Editor editor = context.getSharedPreferences(Preferences.TWITTER_KEY, Context.MODE_PRIVATE).edit();
@@ -23,11 +25,6 @@ class TwitterSessionStore {
 
 	public static boolean restore(AsyncTwitter session, Context context) {
 		SharedPreferences savedSession = context.getSharedPreferences(Preferences.TWITTER_KEY, Context.MODE_PRIVATE);
-
-		try {
-			session.setOAuthConsumer(Constants.TWITTER_CONSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
-		} catch (Exception e) {
-		}
 
 		boolean restoredSuccessfully = false;
 		if (isValidSession(context)) {

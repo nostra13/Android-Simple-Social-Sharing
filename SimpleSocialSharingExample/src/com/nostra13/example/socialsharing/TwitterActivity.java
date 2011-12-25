@@ -50,7 +50,7 @@ public class TwitterActivity extends TwitterBaseActivity {
 			}
 		});
 
-		twitter = new TwitterFacade(this);
+		twitter = new TwitterFacade(this, Constants.TWITTER_CONSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
 	}
 
 	@Override

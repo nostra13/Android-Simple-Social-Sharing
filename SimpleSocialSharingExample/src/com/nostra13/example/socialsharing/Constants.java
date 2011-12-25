@@ -7,6 +7,11 @@ public final class Constants {
 	private Constants() {
 	}
 
+	public static final String FACEBOOK_APP_ID = "___YOUR_FACEBOOK_APP_ID___";
+
+	public static final String TWITTER_CONSUMER_KEY = "___YOUR_TWITTER_CONSUMER_KEY___";
+	public static final String TWITTER_CONSUMER_SECRET = "___YOUR_TWITTER_CONSUMER_SECRET___";
+
 	public static final String FACEBOOK_SHARE_MESSAGE = "Look at this great App!";
 	public static final String FACEBOOK_SHARE_LINK = "https://github.com/nostra13/Android-Social-Sharing";
 	public static final String FACEBOOK_SHARE_LINK_NAME = "Use Android Social Sharing in your project!";

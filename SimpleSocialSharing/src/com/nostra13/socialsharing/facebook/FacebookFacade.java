@@ -26,9 +26,9 @@ public class FacebookFacade {
 	private Facebook facebook;
 	private AsyncFacebookRunner asyncFacebook;
 
-	public FacebookFacade(Activity context) {
+	public FacebookFacade(Activity context, String facebookAppId) {
 		this.context = context;
-		facebook = new Facebook(Constants.FACEBOOK_APP_ID);
+		facebook = new Facebook(facebookAppId);
 		FacebookSessionStore.restore(facebook, context);
 		asyncFacebook = new AsyncFacebookRunner(facebook);
 	}

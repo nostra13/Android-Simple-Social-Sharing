@@ -41,7 +41,7 @@ public class FacebookActivity extends FacebookBaseActivity {
 
 		setContentView(R.layout.ac_facebook);
 
-		facebook = new FacebookFacade(this);
+		facebook = new FacebookFacade(this, Constants.FACEBOOK_APP_ID);
 
 		messageView = (TextView) findViewById(R.id.message);
 		linkNameView = (TextView) findViewById(R.id.link_name);

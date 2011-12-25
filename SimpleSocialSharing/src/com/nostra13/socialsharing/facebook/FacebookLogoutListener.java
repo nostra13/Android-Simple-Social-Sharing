@@ -13,6 +13,7 @@ import com.facebook.android.FacebookError;
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
  */
 class FacebookLogoutListener implements RequestListener {
+
 	private static final String TAG = FacebookLogoutListener.class.getSimpleName();
 
 	@Override

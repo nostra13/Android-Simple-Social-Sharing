@@ -10,7 +10,10 @@ import com.nostra13.socialsharing.Constants.Preferences;
 /**
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
  */
-class FacebookSessionStore {
+final class FacebookSessionStore {
+
+	private FacebookSessionStore() {
+	}
 
 	public static boolean save(Facebook session, Context context) {
 		Editor editor = context.getSharedPreferences(Preferences.FACEBOOK_KEY, Context.MODE_PRIVATE).edit();
