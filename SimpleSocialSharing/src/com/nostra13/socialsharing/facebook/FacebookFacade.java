@@ -23,9 +23,7 @@ public class FacebookFacade {
 	private static final String TAG = FacebookFacade.class.getSimpleName();
 
 	private Activity context;
-
 	private Facebook facebook;
-
 	private AsyncFacebookRunner asyncFacebook;
 
 	public FacebookFacade(Activity context) {
