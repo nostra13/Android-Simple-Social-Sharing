@@ -1,12 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
-
-    <item
-        android:id="@+id/item_share_facebook"
-        android:icon="@android:drawable/ic_menu_share"
-        android:title="@string/menu_share_facebook"/>
-    <item
-        android:id="@+id/item_share_twitter"
-        android:icon="@android:drawable/ic_menu_share"
-        android:title="@string/menu_share_twitter"/>
-</menu>

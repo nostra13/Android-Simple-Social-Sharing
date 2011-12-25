@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">SocialSharing</string>
-    <string name="text_home">Welcome to Social Sharing!!! \n\nUse menu to share</string>
+    <string name="text_home">This is just example of using <b>Simple Social Sharing</b> project\n\nYou can see right design of sharing here - <a href="">http://www.androidpatterns.com/uap_pattern/share-button</a></string>
     <!-- Facebook events -->
     <string name="toast_facebook_auth_success">Facebook authentication is successful</string>
     <string name="toast_facebook_auth_fail">Error was occurred during Facebook authentication</string>
@@ -19,8 +19,8 @@
     <string name="share_message_title">Message</string>
     <string name="button_facebook_post">Post on Facebook</string>
     <string name="button_twitter_post">Post on Twitter</string>
-    <string name="menu_share_facebook">Share on Facebook</string>
-    <string name="menu_share_twitter">Share on Twitter</string>
+    <string name="button_share_facebook">Share on Facebook</string>
+    <string name="button_share_twitter">Share on Twitter</string>
     <string name="menu_logout">Logout</string>
 
 </resources>

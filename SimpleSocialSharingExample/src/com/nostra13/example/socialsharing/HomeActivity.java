@@ -3,9 +3,8 @@ package com.nostra13.example.socialsharing;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 import com.nostra13.example.socialsharing.Constants.Extra;
@@ -23,6 +22,18 @@ public class HomeActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.ac_home);
+		findViewById(R.id.button_share_facebook).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startFacebookActivity();
+			}
+		});
+		findViewById(R.id.button_share_twitter).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startTwitterActivity();
+			}
+		});
 	}
 
 	@Override
@@ -37,26 +48,6 @@ public class HomeActivity extends Activity {
 		super.onStop();
 		FacebookEvents.removePostListener(facebookPostListener);
 		TwitterEvents.removePostListener(twitterPostListener);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu_home, menu);
-		return true;
-	}
-
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.item_share_facebook:
-				startFacebookActivity();
-				return true;
-			case R.id.item_share_twitter:
-				startTwitterActivity();
-				return true;
-			default:
-				return false;
-		}
 	}
 
 	private void startFacebookActivity() {

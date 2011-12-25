@@ -7,8 +7,26 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/text_home"
         android:padding="50dip"
+        android:text="@string/text_home"
         android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/button_share_facebook"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        onClick="onFacebookClick"
+        android:text="@string/button_share_facebook" />
+
+    <Button
+        android:id="@+id/button_share_twitter"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        onClick="onTwitterClick"
+        android:text="@string/button_share_twitter" />
 
 </LinearLayout>
