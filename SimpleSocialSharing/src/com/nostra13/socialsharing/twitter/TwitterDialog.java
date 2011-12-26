@@ -3,7 +3,7 @@ package com.nostra13.socialsharing.twitter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import twitter4j.AsyncTwitter;
+
 import twitter4j.TwitterException;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
@@ -56,39 +56,44 @@ class TwitterDialog extends Dialog {
 		spinner = new ProgressDialog(getContext());
 		spinner.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		spinner.setMessage("Loading...");
-		spinner.setCancelable(false);
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		content = new FrameLayout(getContext());
 		setUpWebView(10);
-
 		addContentView(content, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-
-		retrieveRequestToken();
 	}
 
 	@Override
 	public void show() {
 		super.show();
+		spinner.show();
 		if (requestToken == null) {
-			dismiss();
+			retrieveRequestToken();
 		} else {
 			browser.loadUrl(requestToken.getAuthorizationURL());
 		}
 	}
 
 	private void retrieveRequestToken() {
-		try {
-			requestToken = twitter.getOAuthRequestToken();
-		} catch (TwitterException e) {
-			Log.e(TAG, e.getErrorMessage(), e);
-			String errorMessage = e.getErrorMessage();
-			if (errorMessage == null) {
-				errorMessage = e.getMessage();
+		twitter.getOAuthRequestToken(new AuthRequestListener() {
+			@Override
+			public void onAuthRequestFailed(TwitterException e) {
+				Log.e(TAG, e.getErrorMessage(), e);
+				String errorMessage = e.getErrorMessage();
+				if (errorMessage == null) {
+					errorMessage = e.getMessage();
+				}
+				TwitterEvents.onLoginError(errorMessage);
+				spinner.dismiss();
+				dismiss();
 			}
-			TwitterEvents.onLoginError(errorMessage);
-			dismiss();
-		}
+
+			@Override
+			public void onAuthRequestComplete(RequestToken requestToken) {
+				TwitterDialog.this.requestToken = requestToken;
+				browser.loadUrl(requestToken.getAuthorizationURL());
+			}
+		});
 	}
 
 	private void setUpWebView(int margin) {
@@ -133,7 +138,7 @@ class TwitterDialog extends Dialog {
 		public void onPageFinished(WebView view, String url) {
 			super.onPageFinished(view, url);
 			browser.loadUrl(JS_HTML_EXTRACTOR);
-			
+
 			content.setBackgroundColor(Color.TRANSPARENT);
 			browser.setVisibility(View.VISIBLE);
 		}

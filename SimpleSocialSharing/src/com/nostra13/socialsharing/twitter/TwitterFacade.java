@@ -1,7 +1,6 @@
 package com.nostra13.socialsharing.twitter;
 
-import twitter4j.AsyncTwitter;
-import twitter4j.AsyncTwitterFactory;
+
 import android.content.Context;
 
 /**
@@ -12,7 +11,7 @@ public class TwitterFacade {
 	private Context context;
 	private AsyncTwitter asyncTwitter;
 	private TwitterDialog dialog;
-	
+
 	private String consumerKey;
 	private String consumerSecret;
 
@@ -22,11 +21,10 @@ public class TwitterFacade {
 		this.consumerSecret = consumerSecret;
 		initTwitter();
 	}
-	
+
 	private void initTwitter() {
-		asyncTwitter = new AsyncTwitterFactory().getInstance();
+		asyncTwitter = new AsyncTwitter();
 		asyncTwitter.setOAuthConsumer(consumerKey, consumerSecret);
-		asyncTwitter.addListener(new TwitterPostListener());
 		dialog = new TwitterDialog(context, asyncTwitter);
 		TwitterSessionStore.restore(asyncTwitter, context);
 	}
@@ -40,12 +38,13 @@ public class TwitterFacade {
 	}
 
 	public void logout() {
+		asyncTwitter.shutdown();
 		TwitterSessionStore.clear(context);
 		initTwitter();
 		TwitterEvents.onLogoutComplete();
 	}
 
 	public void publishMessage(String message) {
-		asyncTwitter.updateStatus(message);
+		asyncTwitter.updateStatus(message, new TwitterPostListener());
 	}
 }

@@ -1,28 +1,23 @@
 package com.nostra13.socialsharing.twitter;
 
-import android.util.Log;
-import twitter4j.Status;
-import twitter4j.TwitterAdapter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterMethod;
+import android.util.Log;
 
 /**
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
  */
-class TwitterPostListener extends TwitterAdapter {
+class TwitterPostListener implements TwitterListener {
 
 	private static final String TAG = TwitterPostListener.class.getSimpleName();
 
 	@Override
-	public void updatedStatus(Status status) {
+	public void onStatusUpdateComplete() {
 		TwitterEvents.onPostPublished();
 	}
 
 	@Override
-	public void onException(TwitterException e, TwitterMethod method) {
+	public void onStatusUpdateFailed(TwitterException e) {
 		Log.e(TAG, e.getMessage(), e);
-		if (method == TwitterMethod.UPDATE_STATUS) {
-			TwitterEvents.onPostPublishingFailed();
-		}
+		TwitterEvents.onPostPublishingFailed();
 	}
 };
