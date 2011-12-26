@@ -66,6 +66,7 @@ class TwitterDialog extends Dialog {
 	@Override
 	public void show() {
 		super.show();
+		browser.setVisibility(View.INVISIBLE);
 		spinner.show();
 		if (requestToken == null) {
 			retrieveRequestToken();
@@ -105,7 +106,6 @@ class TwitterDialog extends Dialog {
 		browser.getSettings().setJavaScriptEnabled(true);
 		browser.addJavascriptInterface(new MyJavaScriptInterface(), "HTMLOUT");
 		browser.setLayoutParams(FILL);
-		browser.setVisibility(View.INVISIBLE);
 
 		webViewContainer.setPadding(margin, margin, margin, margin);
 		webViewContainer.addView(browser);
