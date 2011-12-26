@@ -18,6 +18,7 @@
     <!-- Text and labels -->
     <string name="share_message_title">Message</string>
     <string name="button_facebook_post">Post on Facebook</string>
+    <string name="button_facebook_post_image">Post image on Facebook</string>
     <string name="button_twitter_post">Post on Twitter</string>
     <string name="button_share_facebook">Share on Facebook</string>
     <string name="button_share_twitter">Share on Twitter</string>

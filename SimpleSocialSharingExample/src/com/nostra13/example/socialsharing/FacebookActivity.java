@@ -1,8 +1,11 @@
 package com.nostra13.example.socialsharing;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,14 +28,10 @@ public class FacebookActivity extends FacebookBaseActivity {
 
 	private FacebookFacade facebook;
 
-	private TextView messageView;
-	private TextView linkNameView;
-	private TextView linkDescriptionView;
-	private Button postButton;
-
 	private String link;
 	private String linkName;
 	private String linkDescription;
+	private String picture;
 	private Map<String, String> actionsMap;
 
 	@Override
@@ -43,10 +42,11 @@ public class FacebookActivity extends FacebookBaseActivity {
 
 		facebook = new FacebookFacade(this, Constants.FACEBOOK_APP_ID);
 
-		messageView = (TextView) findViewById(R.id.message);
-		linkNameView = (TextView) findViewById(R.id.link_name);
-		linkDescriptionView = (TextView) findViewById(R.id.link_description);
-		postButton = (Button) findViewById(R.id.button_post);
+		final TextView messageView = (TextView) findViewById(R.id.message);
+		TextView linkNameView = (TextView) findViewById(R.id.link_name);
+		TextView linkDescriptionView = (TextView) findViewById(R.id.link_description);
+		Button postButton = (Button) findViewById(R.id.button_post);
+		Button postImageButton = (Button) findViewById(R.id.button_post_image);
 
 		Bundle bundle = getIntent().getExtras();
 		if (bundle != null) {
@@ -54,6 +54,7 @@ public class FacebookActivity extends FacebookBaseActivity {
 			link = bundle.getString(Extra.POST_LINK);
 			linkName = bundle.getString(Extra.POST_LINK_NAME);
 			linkDescription = bundle.getString(Extra.POST_LINK_DESCRIPTION);
+			picture = bundle.getString(Extra.POST_PICTURE);
 			actionsMap = new HashMap<String, String>();
 			actionsMap.put(Constants.FACEBOOK_SHARE_ACTION_NAME, Constants.FACEBOOK_SHARE_ACTION_LINK);
 
@@ -66,7 +67,22 @@ public class FacebookActivity extends FacebookBaseActivity {
 			@Override
 			public void onClick(View v) {
 				if (facebook.isAuthorized()) {
-					facebook.publishMessage(messageView.getText().toString(), link, linkName, linkDescription, Constants.FACEBOOK_SHARE_PICTURE, actionsMap);
+					facebook.publishMessage(messageView.getText().toString(), link, linkName, linkDescription, picture, actionsMap);
+					finish();
+				} else {
+					facebook.authorize();
+				}
+			}
+		});
+		postImageButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (facebook.isAuthorized()) {
+					Bitmap bmp = ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_app)).getBitmap();
+					ByteArrayOutputStream stream = new ByteArrayOutputStream();
+					bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+					byte[] bitmapdata = stream.toByteArray();
+					facebook.publishImage(bitmapdata, Constants.FACEBOOK_SHARE_IMAGE_CAPTION);
 					finish();
 				} else {
 					facebook.authorize();

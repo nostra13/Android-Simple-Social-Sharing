@@ -63,8 +63,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="20dip"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
         android:padding="10dip"
         android:text="@string/button_facebook_post" />
+
+    <Button
+        android:id="@+id/button_post_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
+        android:layout_marginTop="20dip"
+        android:padding="10dip"
+        android:text="@string/button_facebook_post_image" />
 
 </LinearLayout>

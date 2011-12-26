@@ -56,6 +56,7 @@ public class HomeActivity extends Activity {
 		intent.putExtra(Extra.POST_LINK, Constants.FACEBOOK_SHARE_LINK);
 		intent.putExtra(Extra.POST_LINK_NAME, Constants.FACEBOOK_SHARE_LINK_NAME);
 		intent.putExtra(Extra.POST_LINK_DESCRIPTION, Constants.FACEBOOK_SHARE_LINK_DESCRIPTION);
+		intent.putExtra(Extra.POST_PICTURE, Constants.FACEBOOK_SHARE_PICTURE);
 		startActivity(intent);
 	}
 
