@@ -17,58 +17,42 @@ public abstract class TwitterBaseActivity extends Activity {
 	private AuthListener authListener = new AuthListener() {
 		@Override
 		public void onAuthSucceed() {
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					Toast.makeText(TwitterBaseActivity.this, R.string.toast_twitter_auth_success, Toast.LENGTH_SHORT).show();
-				}
-			});
+			showToastOnUIThread(R.string.toast_twitter_auth_success);
 		}
 
 		@Override
 		public void onAuthFail(String error) {
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					Toast.makeText(TwitterBaseActivity.this, R.string.toast_twitter_auth_fail, Toast.LENGTH_LONG).show();
-				}
-			});
+			showToastOnUIThread(R.string.toast_twitter_auth_fail);
 		}
 	};
 
 	private PostListener postListener = new PostListener() {
 		@Override
 		public void onPostPublishingFailed() {
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					Toast.makeText(TwitterBaseActivity.this, R.string.twitter_post_publishing_failed, Toast.LENGTH_SHORT).show();
-				}
-			});
+			showToastOnUIThread(R.string.twitter_post_publishing_failed);
 		}
 
 		@Override
 		public void onPostPublished() {
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					Toast.makeText(TwitterBaseActivity.this, R.string.twitter_post_published, Toast.LENGTH_SHORT).show();
-				}
-			});
+			showToastOnUIThread(R.string.twitter_post_published);
 		}
 	};
 
 	private LogoutListener logoutListener = new LogoutListener() {
 		@Override
 		public void onLogoutComplete() {
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					Toast.makeText(TwitterBaseActivity.this, R.string.twitter_logged_out, Toast.LENGTH_SHORT).show();
-				}
-			});
+			showToastOnUIThread(R.string.twitter_logged_out);
 		}
 	};
+
+	private void showToastOnUIThread(final int textRes) {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				Toast.makeText(TwitterBaseActivity.this, textRes, Toast.LENGTH_SHORT).show();
+			}
+		});
+	}
 
 	@Override
 	protected void onStart() {
