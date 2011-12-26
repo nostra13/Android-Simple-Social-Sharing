@@ -17,12 +17,22 @@ public abstract class TwitterBaseActivity extends Activity {
 	private AuthListener authListener = new AuthListener() {
 		@Override
 		public void onAuthSucceed() {
-			Toast.makeText(TwitterBaseActivity.this, R.string.toast_twitter_auth_success, Toast.LENGTH_SHORT).show();
+			runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					Toast.makeText(TwitterBaseActivity.this, R.string.toast_twitter_auth_success, Toast.LENGTH_SHORT).show();
+				}
+			});
 		}
 
 		@Override
 		public void onAuthFail(String error) {
-			Toast.makeText(TwitterBaseActivity.this, R.string.toast_twitter_auth_fail, Toast.LENGTH_LONG).show();
+			runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					Toast.makeText(TwitterBaseActivity.this, R.string.toast_twitter_auth_fail, Toast.LENGTH_LONG).show();
+				}
+			});
 		}
 	};
 
