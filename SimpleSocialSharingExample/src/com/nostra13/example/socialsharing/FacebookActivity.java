@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import com.nostra13.example.socialsharing.Constants.Extra;
 import com.nostra13.example.socialsharing.base.FacebookBaseActivity;
+import com.nostra13.socialsharing.common.AuthListener;
+import com.nostra13.socialsharing.facebook.FacebookEvents;
 import com.nostra13.socialsharing.facebook.FacebookFacade;
 
 /**
@@ -27,6 +29,8 @@ import com.nostra13.socialsharing.facebook.FacebookFacade;
 public class FacebookActivity extends FacebookBaseActivity {
 
 	private FacebookFacade facebook;
+
+	private TextView messageView;
 
 	private String link;
 	private String linkName;
@@ -42,7 +46,7 @@ public class FacebookActivity extends FacebookBaseActivity {
 
 		facebook = new FacebookFacade(this, Constants.FACEBOOK_APP_ID);
 
-		final TextView messageView = (TextView) findViewById(R.id.message);
+		messageView = (TextView) findViewById(R.id.message);
 		TextView linkNameView = (TextView) findViewById(R.id.link_name);
 		TextView linkDescriptionView = (TextView) findViewById(R.id.link_description);
 		Button postButton = (Button) findViewById(R.id.button_post);
@@ -67,9 +71,23 @@ public class FacebookActivity extends FacebookBaseActivity {
 			@Override
 			public void onClick(View v) {
 				if (facebook.isAuthorized()) {
-					facebook.publishMessage(messageView.getText().toString(), link, linkName, linkDescription, picture, actionsMap);
+					publishMessage();
 					finish();
 				} else {
+					// Start authentication dialog and publish message after successful authentication
+					FacebookEvents.addAuthListener(new AuthListener() {
+						@Override
+						public void onAuthSucceed() {
+							publishMessage();
+							finish();
+							FacebookEvents.removeAuthListener(this);
+						}
+
+						@Override
+						public void onAuthFail(String error) {
+							FacebookEvents.removeAuthListener(this);
+						}
+					});
 					facebook.authorize();
 				}
 			}
@@ -78,17 +96,39 @@ public class FacebookActivity extends FacebookBaseActivity {
 			@Override
 			public void onClick(View v) {
 				if (facebook.isAuthorized()) {
-					Bitmap bmp = ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_app)).getBitmap();
-					ByteArrayOutputStream stream = new ByteArrayOutputStream();
-					bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-					byte[] bitmapdata = stream.toByteArray();
-					facebook.publishImage(bitmapdata, Constants.FACEBOOK_SHARE_IMAGE_CAPTION);
+					publishImage();
 					finish();
 				} else {
+					// Start authentication dialog and publish image after successful authentication
+					FacebookEvents.addAuthListener(new AuthListener() {
+						@Override
+						public void onAuthSucceed() {
+							publishImage();
+							finish();
+							FacebookEvents.removeAuthListener(this);
+						}
+
+						@Override
+						public void onAuthFail(String error) {
+							FacebookEvents.removeAuthListener(this);
+						}
+					});
 					facebook.authorize();
 				}
 			}
 		});
+	}
+
+	private void publishMessage() {
+		facebook.publishMessage(messageView.getText().toString(), link, linkName, linkDescription, picture, actionsMap);
+	}
+
+	private void publishImage() {
+		Bitmap bmp = ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_app)).getBitmap();
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+		byte[] bitmapdata = stream.toByteArray();
+		facebook.publishImage(bitmapdata, Constants.FACEBOOK_SHARE_IMAGE_CAPTION);
 	}
 
 	@Override
