@@ -26,7 +26,9 @@ public final class FacebookEvents {
 	 *            The callback object for notifying the application when auth events happen.
 	 */
 	public static void addAuthListener(AuthListener listener) {
-		authListeners.add(listener);
+		synchronized (authListeners) {
+			authListeners.add(listener);
+		}
 	}
 
 	/**
@@ -36,7 +38,9 @@ public final class FacebookEvents {
 	 *            The callback object for notifying the application when auth events happen.
 	 */
 	public static void removeAuthListener(AuthListener listener) {
-		authListeners.remove(listener);
+		synchronized (authListeners) {
+			authListeners.remove(listener);
+		}
 	}
 
 	/**
@@ -47,7 +51,9 @@ public final class FacebookEvents {
 	 *            The callback object for notifying the application when log out starts and finishes.
 	 */
 	public static void addLogoutListener(LogoutListener listener) {
-		logoutListeners.add(listener);
+		synchronized (logoutListeners) {
+			logoutListeners.add(listener);
+		}
 	}
 
 	/**
@@ -57,7 +63,9 @@ public final class FacebookEvents {
 	 *            The callback object for notifying the application when log out starts and finishes.
 	 */
 	public static void removeLogoutListener(LogoutListener listener) {
-		logoutListeners.remove(listener);
+		synchronized (logoutListeners) {
+			logoutListeners.remove(listener);
+		}
 	}
 
 	/**
@@ -68,7 +76,9 @@ public final class FacebookEvents {
 	 *            The callback object for notifying the application when post was published (or publishing was failed).
 	 */
 	public static void addPostListener(PostListener listener) {
-		postListeners.add(listener);
+		synchronized (postListeners) {
+			postListeners.add(listener);
+		}
 	}
 
 	/**
@@ -78,36 +88,48 @@ public final class FacebookEvents {
 	 *            The callback object for notifying the application when post was published (or publishing was failed).
 	 */
 	public static void removePostListener(PostListener listener) {
-		postListeners.remove(listener);
+		synchronized (postListeners) {
+			postListeners.remove(listener);
+		}
 	}
 
 	static void onLoginSuccess() {
-		for (AuthListener listener : authListeners) {
-			listener.onAuthSucceed();
+		synchronized (authListeners) {
+			for (AuthListener listener : authListeners) {
+				listener.onAuthSucceed();
+			}
 		}
 	}
 
 	static void onLoginError(String error) {
-		for (AuthListener listener : authListeners) {
-			listener.onAuthFail(error);
+		synchronized (authListeners) {
+			for (AuthListener listener : authListeners) {
+				listener.onAuthFail(error);
+			}
 		}
 	}
 
 	static void onLogoutComplete() {
-		for (LogoutListener l : logoutListeners) {
-			l.onLogoutComplete();
+		synchronized (logoutListeners) {
+			for (LogoutListener l : logoutListeners) {
+				l.onLogoutComplete();
+			}
 		}
 	}
 
 	static void onPostPublished() {
-		for (PostListener l : postListeners) {
-			l.onPostPublished();
+		synchronized (postListeners) {
+			for (PostListener l : postListeners) {
+				l.onPostPublished();
+			}
 		}
 	}
 
 	static void onPostPublishingFailed() {
-		for (PostListener l : postListeners) {
-			l.onPostPublishingFailed();
+		synchronized (postListeners) {
+			for (PostListener l : postListeners) {
+				l.onPostPublishingFailed();
+			}
 		}
 	}
 }
