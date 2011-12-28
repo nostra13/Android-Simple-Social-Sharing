@@ -29,9 +29,6 @@ import android.widget.LinearLayout;
 class TwitterDialog extends Dialog {
 	public static final String TAG = "twitter";
 
-	static final int TW_BLUE = 0xFFC0DEED;
-	static final float[] DIMENSIONS_LANDSCAPE = {460, 260};
-	static final float[] DIMENSIONS_PORTRAIT = {280, 420};
 	static final FrameLayout.LayoutParams FILL = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
 
 	static final String JS_HTML_EXTRACTOR = "javascript:window.HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');";
