@@ -10,7 +10,7 @@ public class TwitterFacade {
 
 	private Context context;
 	private AsyncTwitter asyncTwitter;
-	private TwitterDialog dialog;
+	private CallbackTwitterDialog dialog;
 
 	private String consumerKey;
 	private String consumerSecret;
@@ -25,7 +25,7 @@ public class TwitterFacade {
 	private void initTwitter() {
 		asyncTwitter = new AsyncTwitter();
 		asyncTwitter.setOAuthConsumer(consumerKey, consumerSecret);
-		dialog = new TwitterDialog(context, asyncTwitter);
+		dialog = new CallbackTwitterDialog(context, asyncTwitter);
 		TwitterSessionStore.restore(asyncTwitter, context);
 	}
 

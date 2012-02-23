@@ -22,9 +22,9 @@ import android.widget.LinearLayout;
 /**
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
  */
-class TwitterDialog2 extends Dialog {
+class CallbackTwitterDialog extends Dialog {
 
-	private static final String TAG = TwitterDialog.class.getSimpleName();
+	private static final String TAG = CallbackTwitterDialog.class.getSimpleName();
 
 	private static final FrameLayout.LayoutParams FILL = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
 
@@ -41,7 +41,7 @@ class TwitterDialog2 extends Dialog {
 	private AsyncTwitter twitter;
 	private RequestToken requestToken;
 
-	public TwitterDialog2(Context context, AsyncTwitter twitter) {
+	public CallbackTwitterDialog(Context context, AsyncTwitter twitter) {
 		super(context, android.R.style.Theme_Translucent_NoTitleBar);
 		this.twitter = twitter;
 	}
@@ -87,7 +87,7 @@ class TwitterDialog2 extends Dialog {
 
 			@Override
 			public void onAuthRequestComplete(RequestToken requestToken) {
-				TwitterDialog2.this.requestToken = requestToken;
+				CallbackTwitterDialog.this.requestToken = requestToken;
 				browser.loadUrl(requestToken.getAuthorizationURL());
 			}
 		});
