@@ -25,7 +25,8 @@ facebook.logout();
 **More powerful posting:**
 
 ``` java
-actions = new HashMap<String, String>() {{put("Android Simple Social Sharing", "https://github.com/nostra13/Android-Simple-Social-Sharing");));
+Map actions = new HashMap<String, String>();
+actions.put("Android Simple Social Sharing", "https://github.com/nostra13");
 facebook.publishMessage("Look at this great App!",
 						"Use Android Simple Social Sharing in your project!",
 						"https://github.com/nostra13/Android-Simple-Social-Sharing",
