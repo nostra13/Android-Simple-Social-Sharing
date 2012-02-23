@@ -22,7 +22,8 @@ facebook.publishMessage("This is great App!");
 facebook.logout();
 ```
 
-*More powerful posting:*
+**More powerful posting:**
+
 ``` java
 actions = new HashMap<String, String>() {{put("Android Simple Social Sharing", "https://github.com/nostra13/Android-Simple-Social-Sharing");));
 facebook.publishMessage("Look at this great App!",
@@ -32,7 +33,7 @@ facebook.publishMessage("Look at this great App!",
 						"http://.......facebook-android-logo-1.jpg",
 						actions);
 ```
-![Screenshot](https://github.com/nostra13/Android-Universal-Image-Loader/raw/master/UniversalImageLoader.png)
+![Screenshot](https://github.com/nostra13/Android-Simple-Social-Sharing/raw/master/FacebookPost.png)
 
 #### Twitter
 
