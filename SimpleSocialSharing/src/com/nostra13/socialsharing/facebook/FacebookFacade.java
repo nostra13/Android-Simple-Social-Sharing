@@ -12,8 +12,11 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.facebook.android.AsyncFacebookRunner;
+import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
+import com.facebook.android.FacebookError;
 import com.nostra13.socialsharing.Constants;
+import com.nostra13.socialsharing.common.AuthListener;
 
 /**
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
@@ -38,11 +41,28 @@ public class FacebookFacade {
 	}
 
 	public void authorize() {
+		authorize(null);
+	}
+
+	public void authorize(final AuthListener authListener) {
 		facebook.authorize(context, Constants.FACEBOOK_PERMISSIONS, Facebook.FORCE_DIALOG_AUTH, new FacebookAuthListener() {
 			@Override
+			public void onFacebookError(FacebookError e) {
+				if (authListener != null) authListener.onAuthFail(e.getMessage());
+				super.onFacebookError(e);
+			}
+
+			@Override
+			public void onError(DialogError e) {
+				if (authListener != null) authListener.onAuthFail(e.getMessage());
+				super.onError(e);
+			}
+
+			@Override
 			public void onComplete(Bundle values) {
-				super.onComplete(values);
 				FacebookSessionStore.save(facebook, context);
+				if (authListener != null) authListener.onAuthSucceed();
+				super.onComplete(values);
 			}
 		});
 	}

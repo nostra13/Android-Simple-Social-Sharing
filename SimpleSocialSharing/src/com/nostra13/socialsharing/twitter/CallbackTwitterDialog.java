@@ -1,5 +1,7 @@
 package com.nostra13.socialsharing.twitter;
 
+import com.nostra13.socialsharing.common.AuthListener;
+
 import twitter4j.TwitterException;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
@@ -40,6 +42,8 @@ class CallbackTwitterDialog extends Dialog {
 
 	private AsyncTwitter twitter;
 	private RequestToken requestToken;
+
+	private AuthListener authListener;
 
 	public CallbackTwitterDialog(Context context, AsyncTwitter twitter) {
 		super(context, android.R.style.Theme_Translucent_NoTitleBar);
@@ -123,6 +127,7 @@ class CallbackTwitterDialog extends Dialog {
 				authorizeApp(pin);
 				spinner.dismiss();
 			} else {
+				if (authListener != null) authListener.onAuthFail(description);
 				TwitterEvents.onLoginError(description);
 			}
 			dismiss();
@@ -164,10 +169,16 @@ class CallbackTwitterDialog extends Dialog {
 		try {
 			AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, pin);
 			TwitterSessionStore.save(accessToken, getContext());
+			if (authListener != null) authListener.onAuthSucceed();
 			TwitterEvents.onLoginSuccess();
 		} catch (TwitterException e) {
 			Log.e(TAG, e.getMessage(), e);
+			if (authListener != null) authListener.onAuthFail(e.getErrorMessage());
 			TwitterEvents.onLoginError(e.getErrorMessage());
 		}
+	}
+
+	public void setAuthListener(AuthListener authListener) {
+		this.authListener = authListener;
 	}
 }

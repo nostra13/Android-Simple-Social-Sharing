@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.nostra13.example.socialsharing.Constants.Extra;
 import com.nostra13.example.socialsharing.base.TwitterBaseActivity;
 import com.nostra13.socialsharing.common.AuthListener;
-import com.nostra13.socialsharing.twitter.TwitterEvents;
 import com.nostra13.socialsharing.twitter.TwitterFacade;
 
 /**
@@ -47,20 +46,17 @@ public class TwitterActivity extends TwitterBaseActivity {
 					finish();
 				} else {
 					// Start authentication dialog and publish message after successful authentication
-					TwitterEvents.addAuthListener(new AuthListener() {
+					twitter.authorize(new AuthListener() {
 						@Override
 						public void onAuthSucceed() {
 							twitter.publishMessage(messageView.getText().toString());
 							finish();
-							TwitterEvents.removeAuthListener(this);
 						}
 
 						@Override
-						public void onAuthFail(String error) {
-							TwitterEvents.removeAuthListener(this);
+						public void onAuthFail(String error) { // Do nothing
 						}
 					});
-					twitter.authorize();
 				}
 			}
 		});

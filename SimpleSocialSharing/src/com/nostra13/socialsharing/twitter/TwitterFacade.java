@@ -1,5 +1,6 @@
 package com.nostra13.socialsharing.twitter;
 
+import com.nostra13.socialsharing.common.AuthListener;
 
 import android.content.Context;
 
@@ -34,6 +35,11 @@ public class TwitterFacade {
 	}
 
 	public void authorize() {
+		authorize(null);
+	}
+
+	public void authorize(AuthListener authListener) {
+		dialog.setAuthListener(authListener);
 		dialog.show();
 	}
 

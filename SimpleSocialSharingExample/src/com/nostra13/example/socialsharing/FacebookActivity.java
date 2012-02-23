@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.nostra13.example.socialsharing.Constants.Extra;
 import com.nostra13.example.socialsharing.base.FacebookBaseActivity;
 import com.nostra13.socialsharing.common.AuthListener;
-import com.nostra13.socialsharing.facebook.FacebookEvents;
 import com.nostra13.socialsharing.facebook.FacebookFacade;
 
 /**
@@ -75,20 +74,17 @@ public class FacebookActivity extends FacebookBaseActivity {
 					finish();
 				} else {
 					// Start authentication dialog and publish message after successful authentication
-					FacebookEvents.addAuthListener(new AuthListener() {
+					facebook.authorize(new AuthListener() {
 						@Override
 						public void onAuthSucceed() {
 							publishMessage();
 							finish();
-							FacebookEvents.removeAuthListener(this);
 						}
 
 						@Override
-						public void onAuthFail(String error) {
-							FacebookEvents.removeAuthListener(this);
+						public void onAuthFail(String error) { // Do noting
 						}
 					});
-					facebook.authorize();
 				}
 			}
 		});
@@ -100,20 +96,17 @@ public class FacebookActivity extends FacebookBaseActivity {
 					finish();
 				} else {
 					// Start authentication dialog and publish image after successful authentication
-					FacebookEvents.addAuthListener(new AuthListener() {
+					facebook.authorize(new AuthListener() {
 						@Override
 						public void onAuthSucceed() {
 							publishImage();
 							finish();
-							FacebookEvents.removeAuthListener(this);
 						}
 
 						@Override
-						public void onAuthFail(String error) {
-							FacebookEvents.removeAuthListener(this);
+						public void onAuthFail(String error) { // Do noting
 						}
 					});
-					facebook.authorize();
 				}
 			}
 		});
