@@ -18,9 +18,21 @@ FacebookFacade facebook = new FacebookFacade(activity, FACEBOOK_APP_ID);
 if (!facebook.isAuthorized()) {
 	facebook.authorize();
 }
-facebook.publishMessage("This is great app!");
+facebook.publishMessage("This is great App!");
 facebook.logout();
 ```
+
+*More powerful posting:*
+``` java
+actions = new HashMap<String, String>() {{put("Android Simple Social Sharing", "https://github.com/nostra13/Android-Simple-Social-Sharing");));
+facebook.publishMessage("Look at this great App!",
+						"Use Android Simple Social Sharing in your project!",
+						"https://github.com/nostra13/Android-Simple-Social-Sharing",
+						"Also see other projects of nostra13 on GitHub!",
+						"http://.......facebook-android-logo-1.jpg",
+						actions);
+```
+![Screenshot](https://github.com/nostra13/Android-Universal-Image-Loader/raw/master/UniversalImageLoader.png)
 
 #### Twitter
 
