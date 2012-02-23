@@ -9,11 +9,14 @@ This project aims to provide a reusable instrument for simple sharing with popul
 
 **Important:** In your Twitter Developer Application Settings (https://dev.twitter.com/) you must fill "Callback URL" field with any URL (i.e. http://abc.de).
 It's behaviour by default.
+
 There are two classes in SSS:
- - TwitterDialog
- - CallbackTwitterDialog
-CallbackTwitterDialog is used by default and it works only when "Callback URL" is filled in your Twitter Application settings.
-You may not use callback URL. Then you should clear "Callback URL" field in app settings and replace all using CallbackTwitterDialog with TwitterDilaog (in TwitterFacade class).
+
+ * TwitterDialog
+ * CallbackTwitterDialog
+ 
+```CallbackTwitterDialog``` is used by default and it works only when "Callback URL" is filled in your Twitter Application settings.
+You may not use callback URL. Then you should clear "Callback URL" field in app settings and replace all using ```CallbackTwitterDialog``` with ```TwitterDilaog``` (in ```TwitterFacade``` class).
 
 ## Usage
 
