@@ -1,6 +1,12 @@
 # Simple Social Sharing for Android
 
 This project aims to provide a reusable instrument for simple sharing with popular social networks (Facebook, Twiiter).
+Project uses other open source projects' code (actual on 25.02.2012):
+
+ * [Facebook SDK for Android](https://github.com/facebook/facebook-android-sdk)
+ * [OAuth Signpost](https://github.com/kaeppler/signpost)
+ * [JTwitter](https://github.com/winterstein/JTwitter)
+
 
 ## Features
  * Simple API for Facebook and Twitter sharing (fast indroduction)
