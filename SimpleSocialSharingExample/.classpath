@@ -4,7 +4,7 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="lib" path="lib/simaple-social-sharing-sources.jar"/>
-	<classpathentry kind="lib" path="lib/simaple-social-sharing.jar"/>
+	<classpathentry kind="lib" path="lib/simple-social-sharing-sources.jar"/>
+	<classpathentry kind="lib" path="lib/simple-social-sharing.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
