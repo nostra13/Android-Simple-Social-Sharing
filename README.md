@@ -133,6 +133,6 @@ twitter.logout();
 Like Facebook listening example but use TwitterEvents instead of FacebookEvents.
 
 ## License
-Copyright (c) 2011 [Sergey Tarasevich](http://nostra13android.blogspot.com)
+Copyright (c) 2012 [Sergey Tarasevich](http://nostra13android.blogspot.com)
 
 Licensed under the [BSD 3-clause](http://www.opensource.org/licenses/BSD-3-Clause)
