@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-import com.facebook.android.Facebook;
 import com.nostra13.socialsharing.Constants.Preferences;
+import com.nostra13.socialsharing.facebook.extpack.com.facebook.android.Facebook;
 
 /**
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)

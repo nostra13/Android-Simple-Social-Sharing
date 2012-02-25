@@ -3,10 +3,8 @@ package com.nostra13.socialsharing.twitter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.nostra13.socialsharing.twitter.extpack.winterwell.jtwitter.TwitterException;
 
-import twitter4j.TwitterException;
-import twitter4j.auth.AccessToken;
-import twitter4j.auth.RequestToken;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -27,6 +25,7 @@ import android.widget.LinearLayout;
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
  */
 class TwitterDialog extends Dialog {
+
 	public static final String TAG = "twitter";
 
 	static final FrameLayout.LayoutParams FILL = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
@@ -40,7 +39,7 @@ class TwitterDialog extends Dialog {
 	private FrameLayout content;
 
 	private AsyncTwitter twitter;
-	private RequestToken requestToken;
+	private String requestUrl;
 
 	public TwitterDialog(Context context, AsyncTwitter twitter) {
 		super(context, android.R.style.Theme_Translucent_NoTitleBar);
@@ -65,19 +64,19 @@ class TwitterDialog extends Dialog {
 		super.show();
 		browser.setVisibility(View.INVISIBLE);
 		spinner.show();
-		if (requestToken == null) {
+		if (requestUrl == null) {
 			retrieveRequestToken();
 		} else {
-			browser.loadUrl(requestToken.getAuthorizationURL());
+			browser.loadUrl(requestUrl);
 		}
 	}
 
 	private void retrieveRequestToken() {
 		twitter.getOAuthRequestToken(new AuthRequestListener() {
 			@Override
-			public void onAuthRequestFailed(TwitterException e) {
-				Log.e(TAG, e.getErrorMessage(), e);
-				String errorMessage = e.getErrorMessage();
+			public void onAuthRequestFailed(Exception e) {
+				Log.e(TAG, e.getMessage(), e);
+				String errorMessage = e.getMessage();
 				if (errorMessage == null) {
 					errorMessage = e.getMessage();
 				}
@@ -87,9 +86,9 @@ class TwitterDialog extends Dialog {
 			}
 
 			@Override
-			public void onAuthRequestComplete(RequestToken requestToken) {
-				TwitterDialog.this.requestToken = requestToken;
-				browser.loadUrl(requestToken.getAuthorizationURL());
+			public void onAuthRequestComplete(String requestUrl) {
+				TwitterDialog.this.requestUrl = requestUrl;
+				browser.loadUrl(requestUrl);
 			}
 		});
 	}
@@ -167,12 +166,12 @@ class TwitterDialog extends Dialog {
 
 		private void autorizeApp(String pin) {
 			try {
-				AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, pin);
+				AccessToken accessToken = twitter.getOAuthAccessToken(pin);
 				TwitterSessionStore.save(accessToken, getContext());
 				TwitterEvents.onLoginSuccess();
 			} catch (TwitterException e) {
 				Log.e(TAG, e.getMessage(), e);
-				TwitterEvents.onLoginError(e.getErrorMessage());
+				TwitterEvents.onLoginError(e.getMessage());
 			}
 		}
 	}

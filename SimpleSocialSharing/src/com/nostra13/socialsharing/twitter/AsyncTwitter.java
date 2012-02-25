@@ -1,13 +1,10 @@
 package com.nostra13.socialsharing.twitter;
 
+import java.net.URI;
 
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.auth.AccessToken;
-import twitter4j.auth.RequestToken;
-import twitter4j.internal.async.Dispatcher;
-import twitter4j.internal.async.DispatcherFactory;
+import com.nostra13.socialsharing.twitter.extpack.winterwell.jtwitter.OAuthSignpostClient;
+import com.nostra13.socialsharing.twitter.extpack.winterwell.jtwitter.Twitter;
+
 
 /**
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
@@ -15,33 +12,41 @@ import twitter4j.internal.async.DispatcherFactory;
 class AsyncTwitter {
 
 	private Twitter twitter;
-	private Dispatcher dispatcher;
+	private TaskExecutor dispatcher;
+	private OAuthSignpostClient oauthClient;
 
-	public AsyncTwitter() {
-		twitter = new TwitterFactory().getInstance();
-		dispatcher = new DispatcherFactory().getInstance();
-	}
+	private String consumerKey;
+	private String consumerSecret;
+	private AccessToken accessToken;
 
-	public void setOAuthConsumer(String consumerKey, String consumerSecret) {
-		twitter.setOAuthConsumer(consumerKey, consumerSecret);
+	public AsyncTwitter(String consumerKey, String consumerSecret) {
+		dispatcher = TaskExecutor.newInstance();
+		this.consumerKey = consumerKey;
+		this.consumerSecret = consumerSecret;
 	}
 
 	public void setOAuthAccessToken(AccessToken accessToken) {
-		twitter.setOAuthAccessToken(accessToken);
+		this.accessToken = accessToken;
 	}
 
-	public AccessToken getOAuthAccessToken(RequestToken requestToken, String pin) throws TwitterException {
-		return twitter.getOAuthAccessToken(requestToken, pin);
+	public AccessToken getOAuthAccessToken(String pin) {
+		initOAuthClient();
+
+		oauthClient.setAuthorizationCode(pin);
+		String[] token = oauthClient.getAccessToken();
+		return new AccessToken(token[0], token[1]);
 	}
 
 	public void getOAuthRequestToken(final AuthRequestListener listener) {
+		initOAuthClient();
+
 		dispatcher.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				try {
-					RequestToken requestToken = twitter.getOAuthRequestToken();
-					listener.onAuthRequestComplete(requestToken);
-				} catch (TwitterException e) {
+					URI url = oauthClient.authorizeUrl();
+					listener.onAuthRequestComplete(url.toString());
+				} catch (Exception e) {
 					listener.onAuthRequestFailed(e);
 				}
 			}
@@ -49,20 +54,29 @@ class AsyncTwitter {
 	}
 
 	public void updateStatus(final String message, final TwitterListener listener) {
+		initOAuthClient();
+
+		if (twitter == null) twitter = new Twitter(null, oauthClient);
 		dispatcher.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				try {
 					twitter.updateStatus(message);
 					listener.onStatusUpdateComplete();
-				} catch (TwitterException e) {
+				} catch (Exception e) {
 					listener.onStatusUpdateFailed(e);
 				}
 			}
 		});
 	}
 
-	public void shutdown() {
-		twitter.shutdown();
+	private void initOAuthClient() {
+		if (oauthClient == null) {
+			if (accessToken == null) {
+				oauthClient = new OAuthSignpostClient(consumerKey, consumerSecret, "http://abcd.ef");
+			} else {
+				oauthClient = new OAuthSignpostClient(consumerKey, consumerSecret, accessToken.getToken(), accessToken.getTokenSecret());
+			}
+		}
 	}
 }

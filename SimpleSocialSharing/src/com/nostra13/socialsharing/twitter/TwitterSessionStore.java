@@ -1,6 +1,5 @@
 package com.nostra13.socialsharing.twitter;
 
-import twitter4j.auth.AccessToken;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;

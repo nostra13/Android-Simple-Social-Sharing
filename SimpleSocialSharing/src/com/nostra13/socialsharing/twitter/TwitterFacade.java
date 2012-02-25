@@ -1,8 +1,8 @@
 package com.nostra13.socialsharing.twitter;
 
-import com.nostra13.socialsharing.common.AuthListener;
-
 import android.content.Context;
+
+import com.nostra13.socialsharing.common.AuthListener;
 
 /**
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
@@ -24,8 +24,7 @@ public class TwitterFacade {
 	}
 
 	private void initTwitter() {
-		asyncTwitter = new AsyncTwitter();
-		asyncTwitter.setOAuthConsumer(consumerKey, consumerSecret);
+		asyncTwitter = new AsyncTwitter(consumerKey, consumerSecret);
 		dialog = new CallbackTwitterDialog(context, asyncTwitter);
 		TwitterSessionStore.restore(asyncTwitter, context);
 	}
@@ -44,7 +43,6 @@ public class TwitterFacade {
 	}
 
 	public void logout() {
-		asyncTwitter.shutdown();
 		TwitterSessionStore.clear(context);
 		initTwitter();
 		TwitterEvents.onLogoutComplete();

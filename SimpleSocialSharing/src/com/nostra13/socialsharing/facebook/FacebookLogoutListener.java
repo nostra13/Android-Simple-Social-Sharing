@@ -6,8 +6,8 @@ import java.net.MalformedURLException;
 
 import android.util.Log;
 
-import com.facebook.android.AsyncFacebookRunner.RequestListener;
-import com.facebook.android.FacebookError;
+import com.nostra13.socialsharing.facebook.extpack.com.facebook.android.FacebookError;
+import com.nostra13.socialsharing.facebook.extpack.com.facebook.android.AsyncFacebookRunner.RequestListener;
 
 /**
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)

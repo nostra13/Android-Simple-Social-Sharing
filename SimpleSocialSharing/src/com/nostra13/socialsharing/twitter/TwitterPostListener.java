@@ -1,6 +1,5 @@
 package com.nostra13.socialsharing.twitter;
 
-import twitter4j.TwitterException;
 import android.util.Log;
 
 /**
@@ -16,7 +15,7 @@ class TwitterPostListener implements TwitterListener {
 	}
 
 	@Override
-	public void onStatusUpdateFailed(TwitterException e) {
+	public void onStatusUpdateFailed(Exception e) {
 		Log.e(TAG, e.getMessage(), e);
 		TwitterEvents.onPostPublishingFailed();
 	}

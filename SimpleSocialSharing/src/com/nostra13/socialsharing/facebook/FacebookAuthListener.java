@@ -3,9 +3,9 @@ package com.nostra13.socialsharing.facebook;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.facebook.android.DialogError;
-import com.facebook.android.Facebook.DialogListener;
-import com.facebook.android.FacebookError;
+import com.nostra13.socialsharing.facebook.extpack.com.facebook.android.DialogError;
+import com.nostra13.socialsharing.facebook.extpack.com.facebook.android.FacebookError;
+import com.nostra13.socialsharing.facebook.extpack.com.facebook.android.Facebook.DialogListener;
 
 /**
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)

@@ -11,12 +11,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.facebook.android.AsyncFacebookRunner;
-import com.facebook.android.DialogError;
-import com.facebook.android.Facebook;
-import com.facebook.android.FacebookError;
 import com.nostra13.socialsharing.Constants;
 import com.nostra13.socialsharing.common.AuthListener;
+import com.nostra13.socialsharing.facebook.extpack.com.facebook.android.AsyncFacebookRunner;
+import com.nostra13.socialsharing.facebook.extpack.com.facebook.android.DialogError;
+import com.nostra13.socialsharing.facebook.extpack.com.facebook.android.Facebook;
+import com.nostra13.socialsharing.facebook.extpack.com.facebook.android.FacebookError;
 
 /**
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
