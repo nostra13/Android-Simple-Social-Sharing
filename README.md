@@ -132,7 +132,14 @@ twitter.logout();
 
 Like Facebook listening example but use TwitterEvents instead of FacebookEvents.
 
+## Application using Simple Social Sharing
+* 
+ 
 ## License
-Copyright (c) 2012 [Sergey Tarasevich](http://nostra13android.blogspot.com)
+Copyright (c) 2011-2012, [Sergey Tarasevich](http://nostra13android.blogspot.com)
+
+If you use Simple Social Sharing code in your application you must mention it in application UI with string **"Used Simple-Social-Sharing (c) 2011-2012, Sergey Tarasevich"** (e.g. in some "About" section). If you don't want or you can't do it then you can make request for permission not to mention Simple Social Sharing in your app. 
+*Email: nostra13[at]gmail[dot]com*.
+Also I will be grateful to you if you'll allow to mention your application [here](https://github.com/nostra13/Android-Simple-Social-Sharing) in *"Applications using Simple Social Sharing"* section.
 
 Licensed under the [BSD 3-clause](http://www.opensource.org/licenses/BSD-3-Clause)

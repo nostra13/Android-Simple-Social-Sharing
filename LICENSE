@@ -13,3 +13,8 @@ THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE A
 BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
 GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
 LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+Addition:
+If you use Simple Social Sharing code in your application you must mention it in application UI with string "Used Simple-Social-Sharing (c) 2011-2012, Sergey Tarasevich" (e.g. in some "About" section). If you don't want or you can't do it then you can make request for permission not to mention Simple Social Sharing in your app. 
+Email: nostra13[at]gmail[dot]com.
+Also I will be grateful to you if you'll allow to mention your application at Simple Social Sharing page on Github (https://github.com/nostra13/Android-Simple-Social-Sharing) in "Applications using Simple Social Sharing" section.
