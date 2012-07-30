@@ -1,5 +1,6 @@
 package com.nostra13.example.socialsharing;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,7 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.nostra13.example.socialsharing.Constants.Extra;
-import com.nostra13.example.socialsharing.base.TwitterBaseActivity;
+import com.nostra13.example.socialsharing.assist.TwitterEventObserver;
 import com.nostra13.socialsharing.common.AuthListener;
 import com.nostra13.socialsharing.twitter.TwitterFacade;
 
@@ -19,11 +20,12 @@ import com.nostra13.socialsharing.twitter.TwitterFacade;
  * 
  * @author Sergey Tarasevich
  */
-public class TwitterActivity extends TwitterBaseActivity {
+public class TwitterActivity extends Activity {
 
 	private TextView messageView;
 
 	private TwitterFacade twitter;
+	private TwitterEventObserver twitterEventObserver;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,14 +64,22 @@ public class TwitterActivity extends TwitterBaseActivity {
 		});
 
 		twitter = new TwitterFacade(this, Constants.TWITTER_CONSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
+		twitterEventObserver = TwitterEventObserver.newInstance();
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
+		twitterEventObserver.registerListeners(this);
 		if (!twitter.isAuthorized()) {
 			twitter.authorize();
 		}
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		twitterEventObserver.unregisterListeners();
 	}
 
 	@Override

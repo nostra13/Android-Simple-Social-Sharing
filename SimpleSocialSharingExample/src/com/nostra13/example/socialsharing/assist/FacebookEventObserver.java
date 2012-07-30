@@ -1,4 +1,7 @@
-package com.nostra13.example.socialsharing.base;
+package com.nostra13.example.socialsharing.assist;
+
+import java.lang.ref.Reference;
+import java.lang.ref.WeakReference;
 
 import android.app.Activity;
 import android.widget.Toast;
@@ -10,9 +13,24 @@ import com.nostra13.socialsharing.common.PostListener;
 import com.nostra13.socialsharing.facebook.FacebookEvents;
 
 /**
+ * Observes Facebook events (authentication, publishing, logging out) and shows appropriate {@link Toast toasts}. Use
+ * {@link #registerListeners()} to start observe events and {@link #unregisterListeners()} to stop observing.<br />
+ * <b>Good practice:</b> Call {@link #registerListeners()} at {@link Activity#onStart()} method and necessarily call
+ * {@link #unregisterListeners()} at {@link Activity#onStop()} method
+ * 
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
  */
-public abstract class FacebookBaseActivity extends Activity {
+public class FacebookEventObserver {
+
+	private Reference<Activity> context;
+
+	private FacebookEventObserver() {
+		context = new WeakReference<Activity>(null);
+	}
+
+	public static FacebookEventObserver newInstance() {
+		return new FacebookEventObserver();
+	}
 
 	private AuthListener authListener = new AuthListener() {
 		@Override
@@ -46,25 +64,30 @@ public abstract class FacebookBaseActivity extends Activity {
 	};
 
 	private void showToastOnUIThread(final int textRes) {
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				Toast.makeText(FacebookBaseActivity.this, textRes, Toast.LENGTH_SHORT).show();
-			}
-		});
+		final Activity curActivity = context.get();
+		if (curActivity != null) {
+			curActivity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					Toast.makeText(curActivity, textRes, Toast.LENGTH_SHORT).show();
+				}
+			});
+		}
 	}
 
-	@Override
-	protected void onStart() {
-		super.onStart();
+	/** Should be call at {@link Activity#onStart()} */
+	public void registerListeners(Activity context) {
+		this.context = new WeakReference<Activity>(context);
+
 		FacebookEvents.addAuthListener(authListener);
 		FacebookEvents.addPostListener(postListener);
 		FacebookEvents.addLogoutListener(logoutListener);
 	}
 
-	@Override
-	protected void onStop() {
-		super.onStop();
+	/** Should be call at {@link Activity#onStop()} */
+	public void unregisterListeners() {
+		context.clear();
+
 		FacebookEvents.removeAuthListener(authListener);
 		FacebookEvents.removePostListener(postListener);
 		FacebookEvents.removeLogoutListener(logoutListener);

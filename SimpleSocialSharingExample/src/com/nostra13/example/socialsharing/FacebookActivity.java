@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -16,7 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.nostra13.example.socialsharing.Constants.Extra;
-import com.nostra13.example.socialsharing.base.FacebookBaseActivity;
+import com.nostra13.example.socialsharing.assist.FacebookEventObserver;
 import com.nostra13.socialsharing.common.AuthListener;
 import com.nostra13.socialsharing.facebook.FacebookFacade;
 
@@ -25,9 +26,10 @@ import com.nostra13.socialsharing.facebook.FacebookFacade;
  * 
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
  */
-public class FacebookActivity extends FacebookBaseActivity {
+public class FacebookActivity extends Activity {
 
 	private FacebookFacade facebook;
+	private FacebookEventObserver facebookEventObserver;
 
 	private TextView messageView;
 
@@ -44,6 +46,7 @@ public class FacebookActivity extends FacebookBaseActivity {
 		setContentView(R.layout.ac_facebook);
 
 		facebook = new FacebookFacade(this, Constants.FACEBOOK_APP_ID);
+		facebookEventObserver = FacebookEventObserver.newInstance();
 
 		messageView = (TextView) findViewById(R.id.message);
 		TextView linkNameView = (TextView) findViewById(R.id.link_name);
@@ -127,9 +130,16 @@ public class FacebookActivity extends FacebookBaseActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
+		facebookEventObserver.registerListeners(this);
 		if (!facebook.isAuthorized()) {
 			facebook.authorize();
 		}
+	}
+
+	@Override
+	public void onStop() {
+		facebookEventObserver.unregisterListeners();
+		super.onStop();
 	}
 
 	@Override

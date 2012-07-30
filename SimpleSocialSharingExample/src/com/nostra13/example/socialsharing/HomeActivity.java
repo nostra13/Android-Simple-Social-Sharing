@@ -5,17 +5,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Toast;
 
 import com.nostra13.example.socialsharing.Constants.Extra;
-import com.nostra13.socialsharing.common.PostListener;
-import com.nostra13.socialsharing.facebook.FacebookEvents;
-import com.nostra13.socialsharing.twitter.TwitterEvents;
+import com.nostra13.example.socialsharing.assist.FacebookEventObserver;
+import com.nostra13.example.socialsharing.assist.TwitterEventObserver;
 
 /**
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
  */
 public class HomeActivity extends Activity {
+
+	private FacebookEventObserver facebookEventObserver;
+	private TwitterEventObserver twitterEventObserver;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,20 +35,23 @@ public class HomeActivity extends Activity {
 				startTwitterActivity();
 			}
 		});
+
+		facebookEventObserver = FacebookEventObserver.newInstance();
+		twitterEventObserver = TwitterEventObserver.newInstance();
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
-		FacebookEvents.addPostListener(facebookPostListener);
-		TwitterEvents.addPostListener(twitterPostListener);
+		facebookEventObserver.registerListeners(this);
+		twitterEventObserver.registerListeners(this);
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
-		FacebookEvents.removePostListener(facebookPostListener);
-		TwitterEvents.removePostListener(twitterPostListener);
+		facebookEventObserver.unregisterListeners();
+		twitterEventObserver.unregisterListeners();
 	}
 
 	private void startFacebookActivity() {
@@ -65,49 +69,4 @@ public class HomeActivity extends Activity {
 		intent.putExtra(Extra.POST_MESSAGE, Constants.TWITTER_SHARE_MESSAGE);
 		startActivity(intent);
 	}
-
-	private PostListener facebookPostListener = new PostListener() {
-
-		@Override
-		public void onPostPublishingFailed() {
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					Toast.makeText(HomeActivity.this, R.string.facebook_post_publishing_failed, Toast.LENGTH_SHORT).show();
-				}
-			});
-		}
-
-		@Override
-		public void onPostPublished() {
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					Toast.makeText(HomeActivity.this, R.string.facebook_post_published, Toast.LENGTH_SHORT).show();
-				}
-			});
-		}
-	};
-
-	private PostListener twitterPostListener = new PostListener() {
-		@Override
-		public void onPostPublishingFailed() {
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					Toast.makeText(HomeActivity.this, R.string.twitter_post_publishing_failed, Toast.LENGTH_SHORT).show();
-				}
-			});
-		}
-
-		@Override
-		public void onPostPublished() {
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					Toast.makeText(HomeActivity.this, R.string.twitter_post_published, Toast.LENGTH_SHORT).show();
-				}
-			});
-		}
-	};
 }
