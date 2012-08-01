@@ -121,9 +121,15 @@ class CallbackTwitterDialog extends Dialog {
 		@Override
 		public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
 			super.onReceivedError(view, errorCode, description, failingUrl);
-			String pin = extractAuthVerifier(failingUrl);
+			final String pin = extractAuthVerifier(failingUrl);
 			if (pin != null) {
-				authorizeApp(pin);
+				new Thread(new Runnable() {
+				
+					@Override
+					public void run() {
+						authorizeApp(pin);
+					}
+				}).start();			
 				spinner.dismiss();
 			} else {
 				if (authListener != null) authListener.onAuthFail(description);
