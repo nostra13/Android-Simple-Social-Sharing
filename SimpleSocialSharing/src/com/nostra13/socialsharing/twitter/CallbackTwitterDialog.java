@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -131,13 +132,12 @@ class CallbackTwitterDialog extends Dialog {
 			super.onReceivedError(view, errorCode, description, failingUrl);
 			String pin = extractAuthVerifier(failingUrl);
 			if (pin != null) {
-				authorizeApp(pin);
-				spinner.dismiss();
+				new AuthorizationTask().execute(pin);
 			} else {
 				if (authListener != null) authListener.onAuthFail(description);
 				TwitterEvents.onLoginError(description);
+				dismiss();
 			}
-			dismiss();
 		}
 
 		@Override
@@ -172,20 +172,39 @@ class CallbackTwitterDialog extends Dialog {
 		return verifier;
 	}
 
-	private void authorizeApp(String pin) {
-		try {
-			AccessToken accessToken = twitter.getOAuthAccessToken(pin);
-			TwitterSessionStore.save(accessToken, getContext());
-			if (authListener != null) authListener.onAuthSucceed();
-			TwitterEvents.onLoginSuccess();
-		} catch (TwitterException e) {
-			Log.e(TAG, e.getMessage(), e);
-			if (authListener != null) authListener.onAuthFail(e.getMessage());
-			TwitterEvents.onLoginError(e.getMessage());
-		}
-	}
-
 	public void setAuthListener(AuthListener authListener) {
 		this.authListener = authListener;
+	}
+
+	private class AuthorizationTask extends AsyncTask<String, Void, Boolean> {
+
+		private Exception occuredException;
+
+		@Override
+		protected Boolean doInBackground(String... params) {
+			String pin = params[0];
+			try {
+				AccessToken accessToken = twitter.getOAuthAccessToken(pin);
+				TwitterSessionStore.save(accessToken, getContext());
+				return true;
+			} catch (TwitterException e) {
+				Log.e(TAG, e.getMessage(), e);
+				occuredException = e;
+				return false;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(Boolean success) {
+			if (success) {
+				if (authListener != null) authListener.onAuthSucceed();
+				TwitterEvents.onLoginSuccess();
+			} else {
+				if (authListener != null) authListener.onAuthFail(occuredException.getMessage());
+				TwitterEvents.onLoginError(occuredException.getMessage());
+			}
+			spinner.dismiss();
+			dismiss();
+		}
 	}
 }
