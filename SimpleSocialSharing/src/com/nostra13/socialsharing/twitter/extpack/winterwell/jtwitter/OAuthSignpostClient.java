@@ -220,8 +220,8 @@ public class OAuthSignpostClient extends URLConnectionHttpClient implements
 			// -- but will allow the rest of the class to be used.
 			// Desktop d = Desktop.getDesktop();
 			Class<?> desktopClass = Class.forName("java.awt.Desktop");
-			Method getDesktop = desktopClass.getMethod("getDesktop", null);
-			Object d = getDesktop.invoke(null, null);
+			Method getDesktop = desktopClass.getMethod("getDesktop", (Class[]) null);
+			Object d = getDesktop.invoke(null, (Object[]) null);
 			// d.browse(uri);
 			Method browse = desktopClass.getMethod("browse", URI.class);
 			browse.invoke(d, uri);
