@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,10 +43,12 @@ class CallbackTwitterDialog extends Dialog {
 	private String requestUrl;
 
 	private AuthListener authListener;
+	private Handler handler;
 
 	public CallbackTwitterDialog(Context context, AsyncTwitter twitter) {
 		super(context, android.R.style.Theme_Translucent_NoTitleBar);
 		this.twitter = twitter;
+		this.handler = new Handler();
 	}
 
 	@Override
@@ -89,9 +92,14 @@ class CallbackTwitterDialog extends Dialog {
 			}
 
 			@Override
-			public void onAuthRequestComplete(String requestUrl) {
+			public void onAuthRequestComplete(final String requestUrl) {
 				CallbackTwitterDialog.this.requestUrl = requestUrl;
-				browser.loadUrl(requestUrl);
+				handler.post(new Runnable() {
+					@Override
+					public void run() {
+						browser.loadUrl(requestUrl);
+					}
+				});
 			}
 		});
 	}
