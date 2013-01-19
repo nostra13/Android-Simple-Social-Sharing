@@ -136,8 +136,8 @@ Like Facebook listening example but use TwitterEvents instead of FacebookEvents.
 * 
  
 ## License
-Copyright (c) 2011-2012, [Sergey Tarasevich](http://nostra13android.blogspot.com)
+Copyright (c) 2011, [Sergey Tarasevich](http://nostra13android.blogspot.com)
 
-If you use Simple Social Sharing code in your application you have to inform the author about it (*email: nostra13[at]gmail[dot]com*). Also you should (but you don't have to) mention it in application UI with string **"Used Simple-Social-Sharing (c) 2011-2012, Sergey Tarasevich"** (e.g. in some "About" section).
+If you use Simple Social Sharing code in your application you have to inform the author about it (*email: nostra13[at]gmail[dot]com*). Also you should (but you don't have to) mention it in application UI with string **"Used Simple-Social-Sharing (c) 2011, Sergey Tarasevich"** (e.g. in some "About" section).
 
 Licensed under the [BSD 3-clause](http://www.opensource.org/licenses/BSD-3-Clause)
