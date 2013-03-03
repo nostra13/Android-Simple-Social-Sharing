@@ -1,5 +1,6 @@
 package com.nostra13.socialsharing.twitter;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -28,7 +29,7 @@ class CallbackTwitterDialog extends Dialog {
 
 	private static final String TAG = CallbackTwitterDialog.class.getSimpleName();
 
-	private static final FrameLayout.LayoutParams FILL = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
+	private static final FrameLayout.LayoutParams FILL = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
 	private static final String OAUTH_VERIFIER_KEY = "oauth_verifier";
 
@@ -63,7 +64,7 @@ class CallbackTwitterDialog extends Dialog {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		content = new FrameLayout(getContext());
 		setUpWebView(10);
-		addContentView(content, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		addContentView(content, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 	}
 
 	@Override
@@ -105,6 +106,7 @@ class CallbackTwitterDialog extends Dialog {
 		});
 	}
 
+	@SuppressLint("SetJavaScriptEnabled")
 	private void setUpWebView(int margin) {
 		LinearLayout webViewContainer = new LinearLayout(getContext());
 		browser = new WebView(getContext());

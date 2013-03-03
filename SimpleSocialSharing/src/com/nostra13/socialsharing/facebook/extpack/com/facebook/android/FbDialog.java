@@ -16,6 +16,7 @@
 
 package com.nostra13.socialsharing.facebook.extpack.com.facebook.android;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -41,7 +42,7 @@ public class FbDialog extends Dialog {
 	static final int FB_BLUE = 0xFF6D84B4;
 	static final float[] DIMENSIONS_DIFF_LANDSCAPE = {20, 60};
 	static final float[] DIMENSIONS_DIFF_PORTRAIT = {40, 60};
-	static final FrameLayout.LayoutParams FILL = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
+	static final FrameLayout.LayoutParams FILL = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 	static final int MARGIN = 4;
 	static final int PADDING = 2;
 	static final String DISPLAY_STRING = "touch";
@@ -75,9 +76,10 @@ public class FbDialog extends Dialog {
 		/* Finally add the 'x' image to the mContent layout and
 		 * add mContent to the Dialog view
 		 */
-		addContentView(mContent, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		addContentView(mContent, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 	}
 
+	@SuppressLint("SetJavaScriptEnabled")
 	private void setUpWebView(int margin) {
 		LinearLayout webViewContainer = new LinearLayout(getContext());
 		mWebView = new WebView(getContext());

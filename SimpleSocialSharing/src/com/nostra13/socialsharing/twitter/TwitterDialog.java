@@ -3,8 +3,7 @@ package com.nostra13.socialsharing.twitter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.nostra13.socialsharing.twitter.extpack.winterwell.jtwitter.TwitterException;
-
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -16,10 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+
+import com.nostra13.socialsharing.common.AuthListener;
+import com.nostra13.socialsharing.twitter.extpack.winterwell.jtwitter.TwitterException;
 
 /**
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
@@ -28,7 +31,7 @@ class TwitterDialog extends Dialog {
 
 	public static final String TAG = "twitter";
 
-	static final FrameLayout.LayoutParams FILL = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
+	static final FrameLayout.LayoutParams FILL = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
 	static final String JS_HTML_EXTRACTOR = "javascript:window.HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');";
 	static final String OAUTH_PIN_BLOCK_REGEXP = "id=\\\"oauth_pin((.|\\n)*)(\\d{7})";
@@ -40,6 +43,8 @@ class TwitterDialog extends Dialog {
 
 	private AsyncTwitter twitter;
 	private String requestUrl;
+
+	private AuthListener authListener;
 
 	public TwitterDialog(Context context, AsyncTwitter twitter) {
 		super(context, android.R.style.Theme_Translucent_NoTitleBar);
@@ -56,7 +61,7 @@ class TwitterDialog extends Dialog {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		content = new FrameLayout(getContext());
 		setUpWebView(10);
-		addContentView(content, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		addContentView(content, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 	}
 
 	@Override
@@ -93,6 +98,7 @@ class TwitterDialog extends Dialog {
 		});
 	}
 
+	@SuppressLint("SetJavaScriptEnabled")
 	private void setUpWebView(int margin) {
 		LinearLayout webViewContainer = new LinearLayout(getContext());
 		browser = new WebView(getContext());
@@ -108,6 +114,10 @@ class TwitterDialog extends Dialog {
 		content.addView(webViewContainer);
 	}
 
+	public void setAuthListener(AuthListener authListener) {
+		this.authListener = authListener;
+	}
+
 	private class TwWebViewClient extends WebViewClient {
 
 		@Override
@@ -119,6 +129,7 @@ class TwitterDialog extends Dialog {
 		@Override
 		public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
 			super.onReceivedError(view, errorCode, description, failingUrl);
+			if (authListener != null) authListener.onAuthFail(description);
 			TwitterEvents.onLoginError(description);
 			TwitterDialog.this.dismiss();
 		}
@@ -141,6 +152,7 @@ class TwitterDialog extends Dialog {
 	}
 
 	class MyJavaScriptInterface {
+		@JavascriptInterface
 		public void processHTML(String html) {
 			String blockWithPin = findExpression(html, OAUTH_PIN_BLOCK_REGEXP);
 			if (blockWithPin != null) {
@@ -168,9 +180,11 @@ class TwitterDialog extends Dialog {
 			try {
 				AccessToken accessToken = twitter.getOAuthAccessToken(pin);
 				TwitterSessionStore.save(accessToken, getContext());
+				if (authListener != null) authListener.onAuthSucceed();
 				TwitterEvents.onLoginSuccess();
 			} catch (TwitterException e) {
 				Log.e(TAG, e.getMessage(), e);
+				if (authListener != null) authListener.onAuthFail(e.getMessage());
 				TwitterEvents.onLoginError(e.getMessage());
 			}
 		}
