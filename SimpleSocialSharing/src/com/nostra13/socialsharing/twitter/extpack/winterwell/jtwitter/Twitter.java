@@ -693,7 +693,7 @@ public class Twitter implements Serializable {
 	 * API. <br>
 	 * Note: Does not include the final "/"
 	 */
-	String TWITTER_URL = "http://api.twitter.com/1";
+	String TWITTER_URL = "http://api.twitter.com/1.1";
 
 	private Date untilDate;
 
