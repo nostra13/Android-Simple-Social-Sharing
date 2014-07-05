@@ -16,6 +16,7 @@ import com.nostra13.socialsharing.twitter.extpack.oauth.signpost.AbstractOAuthCo
 import com.nostra13.socialsharing.twitter.extpack.oauth.signpost.OAuthConsumer;
 import com.nostra13.socialsharing.twitter.extpack.oauth.signpost.basic.DefaultOAuthProvider;
 import com.nostra13.socialsharing.twitter.extpack.oauth.signpost.basic.HttpURLConnectionRequestAdapter;
+import com.nostra13.socialsharing.twitter.extpack.oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
 import com.nostra13.socialsharing.twitter.extpack.oauth.signpost.exception.OAuthException;
 import com.nostra13.socialsharing.twitter.extpack.oauth.signpost.http.HttpRequest;
 import com.nostra13.socialsharing.twitter.extpack.winterwell.jtwitter.Twitter.IHttpClient;
@@ -102,10 +103,10 @@ public class OAuthSignpostClient extends URLConnectionHttpClient implements
 	/**
 	 * Use with #setProvider() to make this a foursquare OAuth client
 	 */
-	private static final DefaultOAuthProvider FOURSQUARE_PROVIDER = new DefaultOAuthProvider(
-			"http://api.twitter.com/oauth/request_token",
-			"http://api.twitter.com/oauth/access_token",
-			"http://api.twitter.com/oauth/authorize");
+	private static final CommonsHttpOAuthProvider FOURSQUARE_PROVIDER = new CommonsHttpOAuthProvider(
+			"https://api.twitter.com/oauth/request_token",
+			"https://api.twitter.com/oauth/access_token",
+			"https://api.twitter.com/oauth/authorize");
 
 	/**
 	 * This consumer key (and secret) allows you to get up and running fast.
@@ -163,7 +164,7 @@ public class OAuthSignpostClient extends URLConnectionHttpClient implements
 	private OAuthConsumer consumer;
 	private String consumerKey;
 	private String consumerSecret;
-	private DefaultOAuthProvider provider;
+	private CommonsHttpOAuthProvider provider;
 
 	/**
 	 * 
@@ -307,10 +308,10 @@ public class OAuthSignpostClient extends URLConnectionHttpClient implements
 		if (accessToken != null) {
 			consumer.setTokenWithSecret(accessToken, accessTokenSecret);
 		}
-		provider = new DefaultOAuthProvider(
-				"http://api.twitter.com/oauth/request_token",
-				"http://api.twitter.com/oauth/access_token",
-				"http://api.twitter.com/oauth/authorize");
+		provider = new CommonsHttpOAuthProvider(
+				"https://api.twitter.com/oauth/request_token",
+				"https://api.twitter.com/oauth/access_token",
+				"https://api.twitter.com/oauth/authorize");
 	}
 
 	@Override
@@ -403,7 +404,7 @@ public class OAuthSignpostClient extends URLConnectionHttpClient implements
 	 * 
 	 * @param provider
 	 */
-	public void setProvider(DefaultOAuthProvider provider) {
+	public void setProvider(CommonsHttpOAuthProvider provider) {
 		this.provider = provider;
 	}
 
