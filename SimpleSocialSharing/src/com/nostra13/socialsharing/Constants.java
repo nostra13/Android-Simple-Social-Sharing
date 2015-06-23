@@ -7,7 +7,7 @@ public final class Constants {
 	private Constants() {
 	}
 
-	public static final String[] FACEBOOK_PERMISSIONS = new String[] {"publish_stream"};
+	public static final String[] FACEBOOK_PERMISSIONS = new String[] {"publish_actions"};
 
 	public static final class Preferences {
 		public static final String FACEBOOK_KEY = "facebook-session";
